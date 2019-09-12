@@ -502,7 +502,7 @@
                 "typeHandlerVersion": "1.8",
                 "settings": {
                     "fileUris": [
-                        "https://andysa2.blob.core.windows.net/scriptex/vm-update.ps1?sp=r&st=2019-09-11T18:52:11Z&se=2019-09-19T02:52:11Z&spr=https&sv=2018-03-28&sig=BiOmV0MMaeQu5OHHP%2FPxJwtLYmKFG9sPnLZKywLTLBk%3D&sr=b"
+                        "[parameters('vmUpdateScriptURL')]"
                     ],
                     "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File vm-update.ps1')]"
                 }

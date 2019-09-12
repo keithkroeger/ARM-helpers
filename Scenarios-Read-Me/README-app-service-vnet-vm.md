@@ -19,6 +19,8 @@ These will describe some of the concepts that we're using in this scenario.
 1. [Debugging Access to VM Resources documentation](https://docs.microsoft.com/en-us/azure/app-service/web-sites-integrate-with-vnet#debugging-access-to-vnet-hosted-resources)
 1. [Azure Virtual Network](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-for-azure-services)
 1. [Azure CLI ARM Deployments](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-deploy-cli)
+1. [ARM Quick Starts](https://github.com/Azure/azure-quickstart-templates)
+1. [ARM Script Extensions](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows)
 1. [Azure Storage Accounts](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview?toc=%2fazure%2fstorage%2fblobs%2ftoc.json)
 1. [Azure Storage Endpoints](https://docs.microsoft.com/en-us/azure/storage/common/storage-network-security?toc=%2fazure%2fvirtual-network%2ftoc.json#grant-access-from-a-virtual-network)
 1. [Create a Blob Storage Container with .NET](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-container-create)
