@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "value": "my-app-123"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "vnetName": {
+            "value": "my-test-vnet"
+        },
+        "webSubnetName": {
+            "value": "webApp"
+        },
+        "webSubnetAddressPrefix": {
+            "value": "10.2.1.0/24"
+        },
+        "addressPrefix": {
+            "value": "10.2.0.0/16"
+        },
+        "enableDdosProtection": {
+            "value": false
+        }
+    }
+}
