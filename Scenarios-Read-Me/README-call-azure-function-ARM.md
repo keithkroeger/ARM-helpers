@@ -2,11 +2,17 @@
 
 The goal is in this scenario is to be able to call an Azure Function as part of the ARM template deployment.
 
+We're going to have some simplifications here to demonstrate that we can deploy an App Service, but also call an Azure Function too.
+
+> Note for more information on using the Azure App Service with VNET, please see the [documentation](./README-app-service-vnet-vm.md) for additional guidance.
+
 This example is based off of [Calling Azure Functions from ARM](https://blog.cloudtrooper.net/2017/04/04/run-azure-functions-from-your-quickstart-arm-templates/).
 
 ![App Service VNET VM.](../Media/scenario-call-azure-function-ARM/scenario.png 'App Service VNET VM')
 
 We have a placeholder in the Azure Function to call out to Github to get a sample Azure JSON template.  We could also use this Azure Function to call a web hook to trigger another process (for instance, a [web hook for Azure Automation](https://docs.microsoft.com/en-us/azure/automation/automation-webhooks)).
+
+
 
 ### Links
 
