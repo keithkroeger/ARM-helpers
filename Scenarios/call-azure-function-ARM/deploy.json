@@ -40,7 +40,8 @@
     },
     "variables": {
         "appServicePlanName": "[concat(parameters('appName'), 'serviceplan')]",
-        "TemplateUri": "https://myfunc.azurewebsites.net/api/WebHookFunction?code=myfunccode==&resourcegroupname=abc"
+        "TemplateUri": "https://myfunc.azurewebsites.net/api/WebHookFunction?code=mycode==&resourcegroupname=abc"
+
     },
     "resources": [
         {
