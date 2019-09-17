@@ -7,3 +7,4 @@ To get started:
 
 2. Run Samples
     - [App Service VNET integration with VM](Scenarios-Read-Me/README-app-service-vnet-vm.md)
+    - [Call Azure Function with ARM](Scenarios-Read-Me/README-call-azure-function-ARM.md)
