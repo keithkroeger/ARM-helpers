@@ -1,0 +1,173 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure web app"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "vnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the name of an existing VNet in the same resource group"
+            }
+        },
+        "webSubnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the name of the Subnet Name"
+            },
+            "defaultValue": "webApp"
+        },
+        "webSubnetAddressPrefix": {
+            "type": "string"
+        },
+        "addressPrefix": {
+            "type": "string"
+        },
+        "enableDdosProtection": {
+            "type": "bool"
+        }
+    },
+    "variables": {
+        "appServicePlanName": "[concat(parameters('appName'), 'serviceplan')]",
+        "TemplateUri": "https://armwebfunc.azurewebsites.net/api/WebHookFunction?code=yMQ9zbeafXHa/WX2rP4ldXXWNr5SaiD9rmeff0g05uDKq4V3pmTuFw==&resourcegroupname=abc"
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('webSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('webSubnetAddressPrefix')]",
+                            "delegations": [
+                                {
+                                    "name": "[parameters('webSubnetName')",
+                                    "properties": {
+                                        "serviceName": "Microsoft.Web/serverFarms",
+                                        "actions": [
+                                            "Microsoft.Network/virtualNetworks/subnets/action"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2017-08-01",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "name": "[variables('appServicePlanName')]",
+            "location": "[parameters('location')]",
+            "properties": {},
+            "dependsOn": [],
+            "sku": {
+                "name": "S1"
+            }
+        },
+        {
+            "apiVersion": "2016-08-01",
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[parameters('appName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            },
+            "resources": [
+                {
+                    "name": "virtualNetwork",
+                    "type": "config",
+                    "apiVersion": "2018-02-01",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('appName'))]",
+                        "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('webSubnetName'))]"
+                    ],
+                    "properties": {
+                        "subnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('webSubnetName'))]",
+                        "swiftSupported": true
+                    }
+                }
+            ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('vnetName'), '/webApp')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "[parameters('webSubnetAddressPrefix')]",
+                "serviceAssociationLinks": [
+                    {
+                        "name": "AppServiceLink",
+                        "type": "Microsoft.Network/virtualNetworks/subnets/serviceAssociationLinks",
+                        "properties": {
+                            "linkedResourceType": "Microsoft.Web/serverfarms",
+                            "link": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+                            "allowDelete": false,
+                            "locations": []
+                        }
+                    }
+                ],
+                "delegations": [
+                    {
+                        "name": "delegation",
+                        "properties": {
+                            "serviceName": "Microsoft.Web/serverfarms",
+                            "actions": [
+                                "Microsoft.Network/virtualNetworks/subnets/action"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "myNestedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-06-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('TemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ]
+        }
+    ]
+}

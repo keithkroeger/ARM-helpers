@@ -3,10 +3,10 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {	
 		"webAppName": {
-			"value": "thisismydemoapp"
+			"value": "thisismydemoapp-1234"
 		},
 		"keyVaultName": {
-			"value": "thisismydemoapp-kv"
+			"value": "thisismydemoapp-kv-1234"
 		  },
 		"secretName": {
 			"value": "mysecret"
